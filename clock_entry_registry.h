@@ -1,0 +1,19 @@
+#pragma once
+#include <optional>
+#include <vector>
+#include <iostream>
+#include <iomanip>
+#include "clock_entry.h"
+
+
+class ClockEntryRegistry{
+    private:
+        std::vector<ClockEntry> data;
+
+        ClockEntry* findActiveClockEntryByID(int userID);
+
+    public:
+            bool clockUser (int userID);
+            std::vector<ClockEntry>* getData();
+            void print();
+};

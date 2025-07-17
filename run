@@ -1,0 +1,2 @@
+#!/bin/bash
+clang++ *.cpp -o clocker.out && ./clocker.out
