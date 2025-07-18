@@ -205,17 +205,23 @@ void inspectUserPanelRenderer(ConsoleUI& data, int userID,std::string input){
     data.buffer.clear();
 
     data.printToolTips();//Writes into buffer Memory not console
-    float lifeHours = data.clockData.getUserLifeTimeHours(userID);
+    float lifeSec = data.clockData.getUserLifeTimeSeconds(userID);
 
     data.buffer << "\n";
 
     data.buffer << "   " << "Displaying DATA for user# ["<< userID <<"]\n\n";
     
-    data.buffer << "    - "<< "Total Lifetime Hours: "<< lifeHours << " HRS\n\n";
+    data.buffer << "    - "<< "Total Lifetime Hours: "<< lifeSec/3600 << " Hours = ("<< lifeSec << " seconds" << ")\n\n";
+
+    data.buffer << "   The hours are stored as seconds on the back end.\n"
+                   "   The Max whole number seconds exactly representable in float:\n"
+                   "   ~16.7 million seconds or 4660 hours to be exact\n"
+                   "   If accumulated time reaches such a threshold, the accuracy of the hours\n"
+                   "   will drop signifigently\n\n";
 
     std::string buttonMessege = "last Button activated on this menu: ";
     buttonMessege.append(input);
-    data.printTextBox(buttonMessege, 70);  // Writes into buffer
+    data.printTextBox(buttonMessege, 80);  // Writes into buffer
 
     data.clearScreen();                         // Clear screen before redraw
     std::cout << data.buffer.str() << std::flush;  // Output everything at once

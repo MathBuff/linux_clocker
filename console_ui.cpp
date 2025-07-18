@@ -111,7 +111,7 @@ void ConsoleUI::clearScreen() {
 }
 
 void ConsoleUI::printToolTips(){
-    printTextBox(toolTip, 70);
+    printTextBox(toolTip, 80);
 }
 
 void ConsoleUI::printTextBox(const std::string& content, int width) {
@@ -221,7 +221,7 @@ void ConsoleUI::drawUI(const std::string& lastInput) {
 
     std::string buttonMessege = "last Button activated on this menu: ";
     buttonMessege.append(lastInput);
-    printTextBox(buttonMessege, 70);  // Writes into buffer
+    printTextBox(buttonMessege, 80);  // Writes into buffer
 
     buffer<< errorMessege;
 

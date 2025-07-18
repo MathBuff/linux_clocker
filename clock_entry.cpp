@@ -95,7 +95,7 @@ std::string ClockEntry::toString() const {
         << timePointToString(clockOut, "[Shift_Active]") << " ";
 
     if (completedEntry) {
-        out << std::fixed << std::setprecision(2) << shiftTimeSeconds << " sec";
+        out << shiftTimeSeconds/3600 << " hr" << " ("<< shiftTimeSeconds<<"sec)";
     } else {
         out << "[Elapsed_Time_n/a]";
     }

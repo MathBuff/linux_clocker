@@ -16,7 +16,7 @@ class ClockEntryRegistry{
             bool clockUser (int userID);
             std::vector<ClockEntry>* getData();
             void print();
-            float getUserLifeTimeHours(int userID);
+            float getUserLifeTimeSeconds(int userID);
             size_t size() const;
             bool deleteAtPosition(size_t index);
             void add(ClockEntry& newEntry);

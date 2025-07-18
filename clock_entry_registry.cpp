@@ -54,7 +54,7 @@ void ClockEntryRegistry::print() {
 
 }
 
-float ClockEntryRegistry::getUserLifeTimeHours(int userID) {
+float ClockEntryRegistry::getUserLifeTimeSeconds(int userID) {
     float totalSeconds = 0.0f;
 
     for (const ClockEntry& entry : data) {
@@ -63,7 +63,7 @@ float ClockEntryRegistry::getUserLifeTimeHours(int userID) {
         }
     }
 
-    return totalSeconds / 3600.0f;
+    return totalSeconds;
 }
 
 size_t ClockEntryRegistry::size() const {
