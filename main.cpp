@@ -1,7 +1,9 @@
 #include "menus.h"
+#include "tmt88v.h"
 
 int main() {
     mainMenu();
+    
     return 0;
 }
 
