@@ -37,4 +37,10 @@ void Sound::lightSwitch(){
     system("aplay -q sfx/light_switch.wav > /dev/null 2>&1 &"); 
 }
 
+void Sound::cameraShutter(){
+    system("aplay -q sfx/camera_shutter.wav > /dev/null 2>&1 &"); 
+}
+void Sound::reload1(){
+    system("aplay -q sfx/reload1.wav > /dev/null 2>&1 &"); 
+}
 

@@ -53,3 +53,33 @@ void ClockEntryRegistry::print() {
 
 
 }
+
+float ClockEntryRegistry::getUserLifeTimeHours(int userID) {
+    float totalSeconds = 0.0f;
+
+    for (const ClockEntry& entry : data) {
+        if (entry.getUserID() == userID && entry.isCompleted()) {
+            totalSeconds += entry.getShiftTimeSeconds();
+        }
+    }
+
+    return totalSeconds / 3600.0f;
+}
+
+size_t ClockEntryRegistry::size() const {
+    return data.size();
+}
+
+bool ClockEntryRegistry::deleteAtPosition(size_t index) {
+    if (index >= data.size()) {
+        return false; // Invalid index
+    }
+
+    data.erase(data.begin() + index);
+    return true;
+}
+
+void ClockEntryRegistry::add(ClockEntry& newEntry){
+    data.push_back(newEntry);
+}
+

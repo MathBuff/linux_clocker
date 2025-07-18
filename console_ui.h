@@ -5,7 +5,7 @@
 #include <string>
 #include <iostream>
 #include <sstream>
-#include <limits> 
+#include <limits>
 #include <cctype>
 #include <algorithm>
 #include <variant>
@@ -33,6 +33,7 @@ public:
     std::string toolTip = "";
 
     void printMessages();
+    int getCursorPosition();
     void moveCursorUp();
     void moveCursorDown();
     void addMessageFromInput();

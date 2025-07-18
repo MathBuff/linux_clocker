@@ -8,6 +8,10 @@ int ClockEntry::getUserID()  const {
     return id;
 }
 
+void ClockEntry::setEntryComplete(){
+    completedEntry = true;
+}
+
 void ClockEntry::clockInUser() {
     //Saftey Check
     if(completedEntry == true){
@@ -42,7 +46,7 @@ std::chrono::system_clock::time_point ClockEntry::getClockOut() const {
     return clockOut; 
 }
 
-bool ClockEntry::isCompleted() { 
+bool ClockEntry::isCompleted() const { 
     return completedEntry; 
 }
 
@@ -55,6 +59,13 @@ float ClockEntry::calculateShiftTimeSeconds(){
     shiftTimeSeconds = result;
 
     return result;
+}
+
+float ClockEntry::getShiftTimeSeconds() const {
+    if (!completedEntry) return 0.0f;
+
+    std::chrono::duration<float> duration = clockOut - clockIn;
+    return duration.count();
 }
 
 std::string ClockEntry::timePointToString(const std::chrono::system_clock::time_point& tp, const std::string& fallback) const {
@@ -72,28 +83,33 @@ std::string ClockEntry::timePointToString(const std::chrono::system_clock::time_
 }
 
 void ClockEntry::print() {
-    std::ostringstream printOut;
-
-    printOut << id << " ";
-
-    printOut << (completedEntry ? "true" : "false") << " ";
-
-    printOut << timePointToString(clockIn) << " ";
-
-    printOut << timePointToString(clockOut, "[Unfinished]") << " ";
-
-    printOut << std::fixed << std::setprecision(2) << shiftTimeSeconds;
-
-    std::cout << printOut.str() << std::endl;
+    std::cout << toString() << std::endl;
 }
+
 
 std::string ClockEntry::toString() const {
     std::ostringstream out;
     out << id << " "
         << (completedEntry ? "true" : "false") << " "
         << timePointToString(clockIn) << " "
-        << timePointToString(clockOut, "[Unfinished]") << " "
-        << std::fixed << std::setprecision(2) << shiftTimeSeconds;
+        << timePointToString(clockOut, "[Shift_Active]") << " ";
+
+    if (completedEntry) {
+        out << std::fixed << std::setprecision(2) << shiftTimeSeconds << " sec";
+    } else {
+        out << "[Elapsed_Time_n/a]";
+    }
+
     return out.str();
+}
+
+void ClockEntry::setClockIn(const std::chrono::system_clock::time_point& in) {
+    clockIn = in;
+}
+
+void ClockEntry::setClockOut(const std::chrono::system_clock::time_point& out) {
+    clockOut = out;
+    completedEntry = true;
+    shiftTimeSeconds = calculateShiftTimeSeconds();
 }
 

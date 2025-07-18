@@ -36,3 +36,13 @@ const std::unordered_set<int>& Users::getAllUsers() const {
 bool Users::isEmpty() const {
     return userIDs.empty();
 }
+
+int Users::getUserAtPosition(size_t index) const {
+    if (index >= userIDs.size()) {
+        throw std::out_of_range("Index out of range");
+    }
+
+    auto it = userIDs.begin();
+    std::advance(it, index);
+    return *it;
+}

@@ -18,4 +18,7 @@ public:
     const std::unordered_set<int>& getAllUsers() const; 
 
     bool isEmpty() const;
+
+    int getUserAtPosition(size_t index) const;
+
 };

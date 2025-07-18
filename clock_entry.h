@@ -20,6 +20,8 @@ class ClockEntry{
         void setUserID(int newID);
         int getUserID() const;
 
+        void setEntryComplete();
+
         void clockInUser();
         std::chrono::system_clock::time_point getClockIn() const ;
 
@@ -27,15 +29,20 @@ class ClockEntry{
         std::chrono::system_clock::time_point getClockOut() const;
 
 
-        bool isCompleted();
+        bool isCompleted() const;
 
         float calculateShiftTimeSeconds();
+        float getShiftTimeSeconds() const;
 
         std::string timePointToString(const std::chrono::system_clock::time_point& tp, const std::string& fallback = "[Not Set]") const;
 
         void print();
 
         std::string toString() const;
+
+        void setClockIn(const std::chrono::system_clock::time_point& in);
+
+        void setClockOut(const std::chrono::system_clock::time_point& out);
 
 
 };

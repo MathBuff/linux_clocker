@@ -15,6 +15,10 @@ void ConsoleUI::printMessages() {
     }
 }
 
+int ConsoleUI::getCursorPosition(){
+    return cursorPosition;
+}
+
 
 
 

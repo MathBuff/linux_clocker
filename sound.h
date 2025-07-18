@@ -12,4 +12,6 @@ class Sound {
         void typewriterKey();
         void smolClick();
         void lightSwitch();
+        void cameraShutter();
+        void reload1();
 };
