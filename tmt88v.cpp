@@ -11,7 +11,7 @@
 
 //(PRIVATE)==================================
 //Helper
-void tmt88v::wrapText(std::string& contents, int maxWidth) {
+void Tmt88v::wrapText(std::string& contents, int maxWidth) {
     std::istringstream input(contents);
     std::ostringstream output;
     std::string line;
@@ -45,89 +45,89 @@ void tmt88v::wrapText(std::string& contents, int maxWidth) {
 
 //(PUBLIC)====================================
 // Getters
-const char* tmt88v::getPrinterIP() const {
+const char* Tmt88v::getPrinterIP() const {
     return printer_ip;
 }
 
-const std::string& tmt88v::getText() const {
+const std::string& Tmt88v::getText() const {
     return text;
 }
 
-int tmt88v::getCutMode() const {
+int Tmt88v::getCutMode() const {
     return cut_mode;
 }
 
-bool tmt88v::getCutPadding() const {
+bool Tmt88v::getCutPadding() const {
     return cut_padding;
 }
 
-bool tmt88v::getWordTextWrapping() const {
+bool Tmt88v::getWordTextWrapping() const {
     return word_text_wrapping;
 }
 
-int tmt88v::getPageWidth() const {
+int Tmt88v::getPageWidth() const {
     return page_width;
 }
 
-int tmt88v::getFontStyleIndex() const {
+int Tmt88v::getFontStyleIndex() const {
     return font_style_index;
 }
 
-int tmt88v::getFontScaleIndex() const {
+int Tmt88v::getFontScaleIndex() const {
     return font_scale_index;
 }
 
-const std::vector<std::vector<unsigned char>>& tmt88v::getFontStyleCmds() const {
+const std::vector<std::vector<unsigned char>>& Tmt88v::getFontStyleCmds() const {
     return font_style_cmds;
 }
 
-const std::vector<std::vector<unsigned char>>& tmt88v::getFontSizeCmds() const {
+const std::vector<std::vector<unsigned char>>& Tmt88v::getFontSizeCmds() const {
     return font_size_cmds;
 }
 
-bool tmt88v::getDebugMessages() const {
+bool Tmt88v::getDebugMessages() const {
     return debugMessages;
 }
 
-void tmt88v::setDebugMessages(bool debug) {
+void Tmt88v::setDebugMessages(bool debug) {
     debugMessages = debug;
 }
 
 // Setters
-void tmt88v::setPrinterIP(const char* ip) {
+void Tmt88v::setPrinterIP(const char* ip) {
     printer_ip = ip;
 }
 
-void tmt88v::setText(const std::string& newText) {
+void Tmt88v::setText(const std::string& newText) {
     text = newText;
 }
 
-void tmt88v::setCutMode(int mode) {
+void Tmt88v::setCutMode(int mode) {
     cut_mode = mode;
 }
 
-void tmt88v::setCutPadding(bool padding) {
+void Tmt88v::setCutPadding(bool padding) {
     cut_padding = padding;
 }
 
-void tmt88v::setWordTextWrapping(bool wrapping) {
+void Tmt88v::setWordTextWrapping(bool wrapping) {
     word_text_wrapping = wrapping;
 }
 
-void tmt88v::setPageWidth(int width) {
+void Tmt88v::setPageWidth(int width) {
     page_width = width;
 }
 
-void tmt88v::setFontStyleIndex(int index) {
+void Tmt88v::setFontStyleIndex(int index) {
     font_style_index = index;
 }
 
-void tmt88v::setFontScaleIndex(int index) {
+void Tmt88v::setFontScaleIndex(int index) {
     font_scale_index = index;
 }
 
 //Special
-bool tmt88v::loadTextFromFile(const std::string& filename) {
+bool Tmt88v::loadTextFromFile(const std::string& filename) {
     std::ifstream file(filename);
     if (!file) {
         return false; // Could not open file
@@ -140,7 +140,7 @@ bool tmt88v::loadTextFromFile(const std::string& filename) {
     return true;
 }
 
-bool tmt88v::print() {
+bool Tmt88v::print() {
     std::string contents = text;
 
     if (word_text_wrapping) {

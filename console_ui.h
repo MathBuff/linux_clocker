@@ -11,10 +11,12 @@
 #include <variant>
 #include <iomanip>
 #include <fcntl.h>
+#include <chrono>
 
 #include "sound.h"
 #include "users.h"
 #include "clock_entry_registry.h"
+#include "tmt88v.h"
 
 class ConsoleUI {
 private:
@@ -31,6 +33,8 @@ public:
 
     std::string errorMessege = "";
     std::string toolTip = "";
+
+    static Tmt88v tmt88v;
 
     void printMessages();
     int getCursorPosition();
@@ -54,6 +58,11 @@ public:
     void populateMessagesFromClockRegistry();
 
     int addUserPrompt();
+
+    void printClocker(bool clockingOut, int userID);
+
+
+
 };
 
 

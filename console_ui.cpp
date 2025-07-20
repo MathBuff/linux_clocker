@@ -2,6 +2,7 @@
 
 Users ConsoleUI::idData;
 ClockEntryRegistry ConsoleUI::clockData;
+Tmt88v ConsoleUI::tmt88v;
 
 void ConsoleUI::printMessages() {
     for (size_t i = 0; i < messages.size(); ++i) {
@@ -289,5 +290,79 @@ int ConsoleUI::addUserPrompt() {
     return id; // Success
 }
 
+void ConsoleUI::printClocker(bool clockingOut, int userID){
+
+    std::string heading = "";
+
+    //PRINTING OUT THE HEADING
+    if(!clockingOut){
+        tmt88v.setFontStyleIndex(1); //Sets to larger font
+        tmt88v.setFontScaleIndex(3); //Largest possible letters
+        tmt88v.setCutMode(0); //No cutting 
+        tmt88v.setCutPadding(false);//no padding since this is a heading.
+        heading = "Clock IN\n";
+        tmt88v.setText(heading);
+        tmt88v.print();
+
+
+    }
+    else{
+        tmt88v.setFontStyleIndex(1); //Sets to larger font
+        tmt88v.setFontScaleIndex(3); //Largest possible letters
+        tmt88v.setCutMode(0); //No cutting 
+        tmt88v.setCutPadding(false);//no padding since this is a heading.
+        heading = "Clock OUT\n";
+        tmt88v.setText(heading);
+        tmt88v.print();
+    }
+    //PRINTING OUT CURRENT TIME AND DATE
+
+    ClockEntry readEntry;
+
+    readEntry = clockData.getLatestClockEntry(userID);
+
+    std::string time = "";
+
+    if(!clockingOut){
+        std::chrono::system_clock::time_point clockIn = readEntry.getClockIn();
+
+        time = readEntry.timePointToString(clockIn);
+
+    }
+    else{
+        std::chrono::system_clock::time_point clockOut = readEntry.getClockOut();
+        time = readEntry.timePointToString(clockOut);
+    }
+
+    tmt88v.setFontStyleIndex(1); 
+    tmt88v.setFontScaleIndex(1); 
+    tmt88v.setCutMode(0); //No cutting 
+    tmt88v.setCutPadding(false);//no padding since this is mid document.
+    tmt88v.setText(time);
+    tmt88v.print();
+
+    //PRINTING OUT INFORMATION
+    std::ostringstream printBuffer;
+
+    printBuffer << "\n";
+
+    float lifeSec = clockData.getUserLifeTimeSeconds(userID);
+    float curWeekSec = clockData.getUserCalendarWeekSeconds(userID);
+
+    printBuffer << "Displaying DATA for user# ["<< userID <<"]\n\n";
+    
+    printBuffer << "    - "<< "Total Lifetime Hours:\n"
+                << "      "<< curWeekSec/3600 << " Hours = ("<< curWeekSec << " seconds" <<")\n\n";
+    printBuffer << "    - "<< "Hours this week:\n"
+                << "      "<< curWeekSec/3600 << " Hours = ("<< curWeekSec << " seconds" <<")\n\n";
+
+    tmt88v.setFontStyleIndex(0); 
+    tmt88v.setFontScaleIndex(0); 
+    tmt88v.setCutMode(2); //No cutting 
+    tmt88v.setCutPadding(true);//no padding since this is a heading.
+    tmt88v.setText(printBuffer.str());
+    tmt88v.print();
+
+}
 
 

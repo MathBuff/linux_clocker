@@ -1,8 +1,16 @@
 #include "menus.h"
 #include "tmt88v.h"
+#include "console_ui.h"
 
 int main() {
     mainMenu();
+
+    //ConsoleUI menu;
+
+    //bool clockOut = false;
+
+    //menu.printClocker(clockOut);
+    
     
     return 0;
 }

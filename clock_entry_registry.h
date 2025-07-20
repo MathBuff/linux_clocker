@@ -20,4 +20,6 @@ class ClockEntryRegistry{
             size_t size() const;
             bool deleteAtPosition(size_t index);
             void add(ClockEntry& newEntry);
+            float getUserCalendarWeekSeconds(int userID);
+            ClockEntry getLatestClockEntry(int userID); 
 };

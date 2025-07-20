@@ -53,8 +53,10 @@ void mainMenu(){
                 
                 if(doubleCheck == false){
                     mainMenu.errorMessege = "*" + std::to_string(check) + " Clocked In*\n";
+                    mainMenu.printClocker(doubleCheck, check);
                 }else{
                     mainMenu.errorMessege = "*" + std::to_string(check) + " Clocked Out*\n";
+                    mainMenu.printClocker(doubleCheck, check);
                 }
             }
 
@@ -201,17 +203,19 @@ void inspectUserPanel(int userID){
 }
 
 void inspectUserPanelRenderer(ConsoleUI& data, int userID,std::string input){
-     data.buffer.str("");   
+    data.buffer.str("");   
     data.buffer.clear();
 
     data.printToolTips();//Writes into buffer Memory not console
     float lifeSec = data.clockData.getUserLifeTimeSeconds(userID);
+    float curWeekSec = data.clockData.getUserCalendarWeekSeconds(userID);
 
     data.buffer << "\n";
 
     data.buffer << "   " << "Displaying DATA for user# ["<< userID <<"]\n\n";
     
-    data.buffer << "    - "<< "Total Lifetime Hours: "<< lifeSec/3600 << " Hours = ("<< lifeSec << " seconds" << ")\n\n";
+    data.buffer << "    - "<< "Total Lifetime Hours: "<< lifeSec/3600 << " Hours = ("<< lifeSec << " seconds" << ")\n";
+    data.buffer << "    - "<< "Hours this week:      " <<  curWeekSec/3600 << " Hours = ("<< curWeekSec << " seconds" <<")\n\n";
 
     data.buffer << "   The hours are stored as seconds on the back end.\n"
                    "   The Max whole number seconds exactly representable in float:\n"
@@ -367,6 +371,8 @@ std::chrono::system_clock::time_point promptTimePoint(bool& successConditionRetu
     std::time_t time = std::mktime(&tm);
     return std::chrono::system_clock::from_time_t(time);
 }
+
+
 
 
 /*

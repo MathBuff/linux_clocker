@@ -21,3 +21,4 @@ void manualClockEntry();
 
 std::chrono::system_clock::time_point promptTimePoint(bool& successConditionReturn);
 
+void printClocker(Tmt88v tmt88v, bool clockingIn);

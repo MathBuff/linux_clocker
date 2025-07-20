@@ -2,7 +2,7 @@
 #include <string>
 #include <vector>
 #include <fstream>
-class tmt88v {
+class Tmt88v {
 private:
     const char* printer_ip = "192.168.86.200";  // IP of the Epson TM-T88V
     std::string text = "Hello, Epson TM-T88V!\n"; // Default text to print
