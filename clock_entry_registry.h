@@ -3,6 +3,8 @@
 #include <vector>
 #include <iostream>
 #include <iomanip>
+#include <fstream>
+#include <stdexcept>
 #include "clock_entry.h"
 
 
@@ -22,4 +24,6 @@ class ClockEntryRegistry{
             void add(ClockEntry& newEntry);
             float getUserCalendarWeekSeconds(int userID);
             ClockEntry getLatestClockEntry(int userID); 
+            void saveToFile(const std::string& filename = "clock_data.bin");
+            void loadFromFile(const std::string& filename = "clock_data.bin");
 };

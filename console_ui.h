@@ -60,6 +60,8 @@ public:
     int addUserPrompt();
 
     void printClocker(bool clockingOut, int userID);
+    void quickSave();
+    void ripUsersFromLoadedRegistry(); 
 
 
 

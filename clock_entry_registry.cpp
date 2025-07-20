@@ -1,4 +1,5 @@
 #include "clock_entry_registry.h"
+#include <fstream>
 
 //PRIVATE=================================================================================
 
@@ -147,5 +148,94 @@ ClockEntry ClockEntryRegistry::getLatestClockEntry(int userID) {
 
     throw std::runtime_error("ClockEntryRegistry::getLatestClockEntry says No clock entries found for user ID : " + std::to_string(userID));
 }
+
+void ClockEntryRegistry::saveToFile(const std::string& filename) {
+    std::ofstream outFile(filename, std::ios::binary | std::ios::trunc);
+    if (!outFile) {
+        throw std::runtime_error("Failed to open file for writing");
+    }
+
+    size_t count = data.size();
+    outFile.write(reinterpret_cast<const char*>(&count), sizeof(count));
+
+    for (const auto& entry : data) {
+        int id = entry.getUserID();
+        bool completed = entry.isCompleted();
+        float shiftSeconds = entry.getShiftTimeSeconds();
+
+        auto clockIn = entry.getClockIn().time_since_epoch().count();
+        int64_t clockOut = completed
+            ? entry.getClockOut().time_since_epoch().count()
+            : 0;  // ensure incomplete shifts save 0
+
+        outFile.write(reinterpret_cast<const char*>(&id), sizeof(id));
+        outFile.write(reinterpret_cast<const char*>(&completed), sizeof(completed));
+        outFile.write(reinterpret_cast<const char*>(&shiftSeconds), sizeof(shiftSeconds));
+        outFile.write(reinterpret_cast<const char*>(&clockIn), sizeof(clockIn));
+        outFile.write(reinterpret_cast<const char*>(&clockOut), sizeof(clockOut));
+    }
+}
+
+void ClockEntryRegistry::loadFromFile(const std::string& filename) {
+    std::ifstream inFile(filename, std::ios::binary);
+    if (!inFile) {
+        data.clear();
+        return; // no file yet
+    }
+
+    // Check if file is empty
+    inFile.seekg(0, std::ios::end);
+    if (inFile.tellg() == 0) {
+        data.clear();
+        return;
+    }
+    inFile.seekg(0, std::ios::beg);
+
+    data.clear();
+
+    size_t count = 0;
+    inFile.read(reinterpret_cast<char*>(&count), sizeof(count));
+    if (!inFile || count > 1'000'000) { // sanity check
+        data.clear();
+        return;
+    }
+
+    for (size_t i = 0; i < count; ++i) {
+        int id;
+        bool completed;
+        float shiftSeconds;
+        int64_t clockInRaw;
+        int64_t clockOutRaw;
+
+        inFile.read(reinterpret_cast<char*>(&id), sizeof(id));
+        inFile.read(reinterpret_cast<char*>(&completed), sizeof(completed));
+        inFile.read(reinterpret_cast<char*>(&shiftSeconds), sizeof(shiftSeconds));
+        inFile.read(reinterpret_cast<char*>(&clockInRaw), sizeof(clockInRaw));
+        inFile.read(reinterpret_cast<char*>(&clockOutRaw), sizeof(clockOutRaw));
+
+        if (!inFile) break;
+
+        ClockEntry entry;
+        entry.setUserID(id);
+
+        if (completed) {
+            entry.setEntryComplete();
+        } else {
+            entry.setEntryInComplete();
+        }
+
+        entry.setClockIn(std::chrono::system_clock::time_point(
+            std::chrono::system_clock::duration(clockInRaw)));
+
+        if (completed && clockOutRaw != 0) {
+            entry.setClockOut(std::chrono::system_clock::time_point(
+                std::chrono::system_clock::duration(clockOutRaw)));
+        }
+
+        data.push_back(entry);
+    }
+}
+
+
 
 

@@ -3,6 +3,9 @@
 
 void mainMenu(){
     ConsoleUI mainMenu;
+    //BOOTING IN
+    mainMenu.clockData.loadFromFile();
+    mainMenu.ripUsersFromLoadedRegistry();
 
     bool program_running = true;
     
@@ -33,6 +36,7 @@ void mainMenu(){
             mainMenu.clearScreen();
             std::cout << "Exited program\n";
             mainMenu.sfx.tpLettersRead();
+            mainMenu.quickSave();
             break;
         }
 
@@ -48,12 +52,14 @@ void mainMenu(){
                 mainMenu.errorMessege = "*The previously entered ID is not on user list, no changes made.*\n";
             }
             else{
-                bool doubleCheck = mainMenu.clockData.clockUser (check);
+                bool doubleCheck = mainMenu.clockData.clockUser(check);
                 mainMenu.populateMessagesFromClockRegistry();
+                mainMenu.quickSave();
                 
                 if(doubleCheck == false){
                     mainMenu.errorMessege = "*" + std::to_string(check) + " Clocked In*\n";
                     mainMenu.printClocker(doubleCheck, check);
+
                 }else{
                     mainMenu.errorMessege = "*" + std::to_string(check) + " Clocked Out*\n";
                     mainMenu.printClocker(doubleCheck, check);
@@ -167,10 +173,17 @@ while (true) {
     }
 
     if (input == "Delete") {
-        int userID = userMenu.idData.getUserAtPosition(userMenu.getCursorPosition());
-        userMenu.idData.removeUser(userID);
-        userMenu.populateMessagesFromUsers();
-        userMenu.sfx.lowClick();
+        if(userMenu.idData.isEmpty()){
+            userMenu.errorMessege = "*you tried to delete nothing lmao*\n";
+
+        }
+        else{
+            int userID = userMenu.idData.getUserAtPosition(userMenu.getCursorPosition());
+            userMenu.idData.removeUser(userID);
+            userMenu.populateMessagesFromUsers();
+            userMenu.sfx.lowClick();
+            userMenu.errorMessege = "*"+ std::to_string(userID) + " was removed from the user list*\n";
+        }
 
     }
 
@@ -341,7 +354,7 @@ std::cout << "Manual Entry for " << userID << " was successful.\n\n"
 
 panel.getButton();
 panel.sfx.reload1();
-
+panel.quickSave();
 }
 
 //-----------------------------------------------

@@ -12,6 +12,10 @@ void ClockEntry::setEntryComplete(){
     completedEntry = true;
 }
 
+void ClockEntry::setEntryInComplete(){
+    completedEntry = false;
+}
+
 void ClockEntry::clockInUser() {
     //Saftey Check
     if(completedEntry == true){

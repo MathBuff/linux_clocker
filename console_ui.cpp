@@ -365,4 +365,24 @@ void ConsoleUI::printClocker(bool clockingOut, int userID){
 
 }
 
+void ConsoleUI::quickSave(){
+    clockData.saveToFile();
+}
+
+void ConsoleUI::ripUsersFromLoadedRegistry() {
+    // Clear the current Users set to avoid duplicates from old data
+    idData = Users();
+
+    // Get all clock entries from the registry
+    std::vector<ClockEntry>* entries = clockData.getData();
+    if (!entries) return;  // Safety check
+
+    // Iterate through all ClockEntry objects
+    for (const auto& entry : *entries) {
+        int userId = entry.getUserID();
+        idData.addUser(userId);  // Users class manages uniqueness internally
+    }
+}
+
+
 

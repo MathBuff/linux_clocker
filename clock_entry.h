@@ -21,6 +21,7 @@ class ClockEntry{
         int getUserID() const;
 
         void setEntryComplete();
+        void setEntryInComplete(); //<---The change
 
         void clockInUser();
         std::chrono::system_clock::time_point getClockIn() const ;
